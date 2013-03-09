@@ -9,11 +9,8 @@ import sys
 
 
 class TextOutput(object):
-  """Outputs formatted text to the command line.
+  """Outputs formatted text to the command line."""
 
-  Args:
-    msg - string Message to be written to stdout
-  """
   COLOR_MAP = {
     'red':    '\x1b\x5b1;31;22m',
     'green':  '\x1b\x5b1;32;22m',
