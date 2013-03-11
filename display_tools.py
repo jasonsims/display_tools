@@ -5,8 +5,11 @@
 # The purpose of this module is to handle common formatting tasks for text
 # output to the console.
 #
+import os
 import sys
+import time
 
+from color_codes import ColorCodes as colors
 
 class TextOutput(object):
   """Outputs formatted text to the command line."""
@@ -60,3 +63,44 @@ class TextOutput(object):
     """Outputs text in color."""
     sys.stdout.write(
         '%s%s%s' % (self.COLOR_MAP[text_color], msg, self.COLOR_MAP['reset']))
+
+class ConsoleAnimations(object):
+  """This class produces various console animations."""
+  
+  def __init__(self):
+    self.last_spin = 0
+    self.left_pad = 0
+    self.right_pad = 10
+    self.direction = 'right'
+
+  def pin_wheel(self):
+    """Displays a pinwheel animation."""
+    spinner = '|/-\\'
+    sys.stdout.write('%s \r' % spinner[self.last_spin])
+    sys.stdout.flush()
+    self.last_spin += 1
+    if self.last_spin > len(spinner) - 1:
+      self.last_spin = 0
+    time.sleep(.2)
+
+  def moving_bar(self, color='reset'):
+    """Displays a moving bar animation."""
+    progress_pill = ('%s%s%s' % 
+        (colors.COLOR_MAP[color], '==', colors.COLOR_MAP['reset']))
+    sys.stdout.write(' [ %-*s%s%*s ]\r' % 
+        (self.left_pad,'', progress_pill, self.right_pad, ''))
+    sys.stdout.flush()
+
+    if self.left_pad == 10:
+      self.direction = 'left'
+    elif self.right_pad == 10:
+      self.direction = 'right'
+
+    if self.direction == 'right':  
+      self.left_pad += 1
+      self.right_pad -= 1 
+    elif self.direction == 'left':
+      self.right_pad += 1
+      self.left_pad -= 1
+
+    time.sleep(.2)  
