@@ -14,13 +14,6 @@ from color_codes import ColorCodes as colors
 class TextOutput(object):
   """Outputs formatted text to the command line."""
 
-  COLOR_MAP = {
-    'red':    '\x1b\x5b1;31;22m',
-    'green':  '\x1b\x5b1;32;22m',
-    'yellow': '\x1b\x5b1;33;40m',
-    'reset':  '\x1b\x5b1;0m'
-  }
-
   @staticmethod
   def info(msg):
     """Outputs an information message."""
@@ -52,13 +45,18 @@ class TextOutput(object):
     sys.stdout.write('%s\n' % '\n'.join(list_to_output))
 
   @staticmethod
-  def dict(dict_to_output):
-    """Formats a dictionary to more readable output."""
+  def dict(dict_to_output, reverse=False):
+    """Formats a dictionary to more readable output.
+
+    Args:
+      dict_to_output: dict Dictionary to output to console.
+      reverse: bool Reverse direction of the key sort.
+    """
     key_lengths = [ len(x) for x in dict_to_output.keys() ]
     key_lengths.sort()
     text_padding = key_lengths[-1] + 5
 
-    for key, value in dict_to_output.iteritems():
+    for key, value in sorted(dict_to_output.iteritems(), reverse=reverse):
       sys.stdout.write('%-*s: %s\n' % (text_padding, key, value))
 
   # Disabling until the color_codes module is fixed
