@@ -21,36 +21,38 @@ class TextOutput(object):
     'reset':  '\x1b\x5b1;0m'
   }
 
-  def info(self, msg):
-    """Outputs and logs an information message."""
-    sys.stdout.write('%s[INFO]%s %s\n' %
-                     (self.COLOR_MAP['green'], self.COLOR_MAP['reset'], msg))
+  @staticmethod
+  def info(msg):
+    """Outputs an information message."""
+    sys.stdout.write('%s[ INFO ]%s %s\n' % (colors.GREEN, colors.RESET , msg))
 
-  def error(self, msg):
-    """Outputs and logs an error message."""
-    sys.stdout.write('%s[ERROR]%s %s\n' %
-                     (self.COLOR_MAP['red'], self.COLOR_MAP['reset'], msg))
+  @staticmethod
+  def error(msg):
+    """Outputs an error message."""
+    sys.stdout.write('%s[ ERROR ]%s %s\n' % (colors.RED, colors.RESET, msg))
 
-  def warn(self, msg):
-    """Outputs and logs a warning message."""
-    sys.stdout.write('%s[WARN]%s %s\n' %
-                     (self.COLOR_MAP['yellow'], self.COLOR_MAP['reset'], msg))
+  @staticmethod
+  def warn(msg):
+    """Outputs a warning message."""
+    sys.stdout.write('%s[ WARN ]%s %s\n' % (colors.YELLOW, colors.RESET, msg))
 
-  def success(self):
+  @staticmethod
+  def success():
     """Outputs a pass message."""
-    sys.stdout.write('%s[ pass ]%s\n' %
-                     (self.COLOR_MAP['green'], self.COLOR_MAP['reset']))
+    sys.stdout.write('%s[ pass ]%s\n' % (colors.GREEN, colors.RESET))
 
-  def fail(self):
+  @staticmethod
+  def fail():
     """Outputs an fail message."""
-    sys.stdout.write('%s[ fail ]%s\n' %
-                     (self.COLOR_MAP['red'], self.COLOR_MAP['reset']))
+    sys.stdout.write('%s[ fail ]%s\n' % (colors.RED, colors.RESET))
 
-  def list(self, list_to_output):
+  @staticmethod
+  def list(list_to_output):
     """Formats a list to more readable output."""
     sys.stdout.write('%s\n' % '\n'.join(list_to_output))
 
-  def dict(self, dict_to_output):
+  @staticmethod
+  def dict(dict_to_output):
     """Formats a dictionary to more readable output."""
     key_lengths = [ len(x) for x in dict_to_output.keys() ]
     key_lengths.sort()
@@ -59,14 +61,15 @@ class TextOutput(object):
     for key, value in dict_to_output.iteritems():
       sys.stdout.write('%-*s: %s\n' % (text_padding, key, value))
 
-  def color(self, text_color, msg):
-    """Outputs text in color."""
-    sys.stdout.write(
-        '%s%s%s' % (self.COLOR_MAP[text_color], msg, self.COLOR_MAP['reset']))
+  # Disabling until the color_codes module is fixed
+  #def color(self, text_color, msg):
+  #  """Outputs text in color."""
+  #  sys.stdout.write(
+  #      '%s%s%s' % (self.COLOR_MAP[text_color], msg, self.COLOR_MAP['reset']))
 
 class ConsoleAnimations(object):
   """This class produces various console animations."""
-  
+
   def __init__(self):
     self.last_spin = 0
     self.left_pad = 0
@@ -85,9 +88,8 @@ class ConsoleAnimations(object):
 
   def moving_bar(self, color='reset'):
     """Displays a moving bar animation."""
-    progress_pill = ('%s%s%s' % 
-        (colors.COLOR_MAP[color], '==', colors.COLOR_MAP['reset']))
-    sys.stdout.write(' [ %-*s%s%*s ]\r' % 
+    progress_pill = ('%s%s%s' % (colors.GREEN, '==', colors.RESET))
+    sys.stdout.write(' [ %-*s%s%*s ]\r' %
         (self.left_pad,'', progress_pill, self.right_pad, ''))
     sys.stdout.flush()
 
@@ -96,11 +98,11 @@ class ConsoleAnimations(object):
     elif self.right_pad == 10:
       self.direction = 'right'
 
-    if self.direction == 'right':  
+    if self.direction == 'right':
       self.left_pad += 1
-      self.right_pad -= 1 
+      self.right_pad -= 1
     elif self.direction == 'left':
       self.right_pad += 1
       self.left_pad -= 1
 
-    time.sleep(.2)  
+    time.sleep(.2)
