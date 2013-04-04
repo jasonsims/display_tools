@@ -15,6 +15,10 @@ class TextOutput(object):
   """Outputs formatted text to the command line."""
 
   @staticmethod
+  def msg(msg):
+    sys.stdout.write('%s\n' % msg)
+
+  @staticmethod
   def info(msg):
     """Outputs an information message."""
     sys.stdout.write('%s[ INFO ]%s %s\n' % (colors.GREEN, colors.RESET , msg))
@@ -58,6 +62,12 @@ class TextOutput(object):
 
     for key, value in sorted(dict_to_output.iteritems(), reverse=reverse):
       sys.stdout.write('%-*s: %s\n' % (text_padding, key, value))
+
+  @staticmethod
+  def header(msg, header_char='x'):
+    """Prints message with formatted header."""
+    header_chars = header_char * 50
+    sys.stdout.write('%s\n\n %s\n\n%s\n' % (header_chars, msg, header_chars))
 
   # Disabling until the color_codes module is fixed
   #def color(self, text_color, msg):
